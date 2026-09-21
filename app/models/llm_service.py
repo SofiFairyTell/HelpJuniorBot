@@ -24,8 +24,8 @@ class LLMService:
             full_instructions = f"{SYSTEM_PROMPT}\n\n{BUSINESS_CONTEXT}"
             response = client.responses.create(
                 model=f"gpt://{ALICE_FOLDER_ID}/{ALICE_MODEL_URI}",
-                temperature=0.3,
-                instructions=full_instructions
+                temperature=2.0,
+                instructions=full_instructions,
                 input=self._build_input(history, user_text),
                 max_output_tokens=1500,
             )
