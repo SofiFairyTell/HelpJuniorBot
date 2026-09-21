@@ -1,6 +1,7 @@
 import openai
 from app.config import ALICE_API_KEY, ALICE_FOLDER_ID, ALICE_MODEL_URI
 from app.prompts.system_prompt import SYSTEM_PROMPT
+from app.prompts.context import BUSINESS_CONTEXT
 
 client = openai.OpenAI(
     api_key=ALICE_API_KEY,
@@ -20,10 +21,11 @@ class LLMService:
 
     def ask(self, history: list, user_text: str) -> str:
         try:
+            full_instructions = f"{SYSTEM_PROMPT}\n\n{BUSINESS_CONTEXT}"
             response = client.responses.create(
                 model=f"gpt://{ALICE_FOLDER_ID}/{ALICE_MODEL_URI}",
                 temperature=0.3,
-                instructions=SYSTEM_PROMPT,
+                instructions=full_instructions
                 input=self._build_input(history, user_text),
                 max_output_tokens=1500,
             )
